@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+  skip_before_action :require_login, only: [:index, :new, :create]
   before_action :set_user, only: %i[ show edit update destroy ]
 
   def index
@@ -17,7 +18,7 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
 
     if @user.save
-      redirect_to user_url(@user), notice: "User was successfully created."
+      redirect_to(:users, notice: 'User was successfully created')
     else
       render :new, status: :unprocessable_entity
     end
